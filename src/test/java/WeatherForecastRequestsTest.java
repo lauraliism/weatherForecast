@@ -4,7 +4,7 @@ import org.openweathermap.api.WeatherForecast;
 /**
  * Created by lauraliismetsvaht on 11/09/2017.
  */
-public class httpUtilityTest {
+public class WeatherForecastRequestsTest {
 
 	WeatherForecast weatherForecast = new WeatherForecast();
 	String mockCityName = "Tartu";
