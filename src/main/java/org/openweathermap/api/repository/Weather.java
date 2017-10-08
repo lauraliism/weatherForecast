@@ -1,5 +1,6 @@
 package org.openweathermap.api.repository;
 
+import org.json.JSONObject;
 import org.openweathermap.api.request.WeatherRequestCurrent;
 import org.openweathermap.api.request.WeatherRequestForecast;
 import org.openweathermap.exception.NoWeatherReportException;
@@ -12,11 +13,11 @@ import java.net.URL;
 public interface Weather {
 	URL getCurrentWeatherRequestURL(WeatherRequestCurrent request) throws NoWeatherReportException;
 
-	void getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException;
+	JSONObject getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException;
 
-	void getHighestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException;
+	JSONObject getHighestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException;
 
-	void getLowestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException;
+	JSONObject getLowestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException;
 
-	void getCityCoordinates(WeatherRequestCurrent request) throws NoWeatherReportException;
+	JSONObject getCityCoordinates(WeatherRequestCurrent request) throws NoWeatherReportException;
 }

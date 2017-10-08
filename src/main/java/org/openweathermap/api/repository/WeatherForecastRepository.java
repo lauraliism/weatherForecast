@@ -1,6 +1,7 @@
 package org.openweathermap.api.repository;
 
 import okhttp3.HttpUrl;
+import org.json.JSONObject;
 import org.openweathermap.api.request.WeatherRequestCurrent;
 import org.openweathermap.api.request.WeatherRequestForecast;
 import org.openweathermap.exception.NoWeatherReportException;
@@ -18,39 +19,37 @@ public class WeatherForecastRepository implements Weather {
 			.host("api.openweathermap.org")
 			.addPathSegment("/data/2.5/weather")
 			.addQueryParameter("q", request.countryCode+","+request.cityName)
-			.addQueryParameter("APPID", request.apiKey)
+			.addQueryParameter("appid", request.apiKey)
 			.build().url();
-		System.out.println(requestURL);
 		return requestURL;
 	}
 
 	public static URL getWeatherForecastURL(WeatherRequestForecast request) {
 		int forecastLength = request.forecastLengthInDays;
 		URL requestURL = new HttpUrl.Builder()
-				.scheme("https")
-				.host("api.openweathermap.org")
-				.addPathSegment("/data/2.5/weather")
-				.addQueryParameter("q", request.countryCode+","+request.cityName)
-				.addQueryParameter("APPID", request.apiKey)
-				.addQueryParameter("cnt", String.valueOf(forecastLength))
-				.build().url();
+			.scheme("https")
+			.host("api.openweathermap.org")
+			.addPathSegment("/data/2.5/weather")
+			.addQueryParameter("q", request.countryCode+","+request.cityName)
+			.addQueryParameter("appid", request.apiKey)
+			.addQueryParameter("cnt", String.valueOf(forecastLength))
+			.build().url();
 		return requestURL;
 	}
 
 
-	public void getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException {
+	public JSONObject getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException {
+	}
+
+	public JSONObject getHighestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
 
 	}
 
-	public void getHighestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
+	public JSONObject getLowestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
 
 	}
 
-	public void getLowestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
-
-	}
-
-	public void getCityCoordinates(WeatherRequestCurrent request) throws NoWeatherReportException {
+	public JSONObject getCityCoordinates(WeatherRequestCurrent request) throws NoWeatherReportException {
 
 	}
 }
