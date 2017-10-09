@@ -1,4 +1,4 @@
-package org.openweathermap.api.request;
+package org.openweathermap.api.models.request;
 
 /**
  * Created by lauraliismetsvaht on 08/10/2017.

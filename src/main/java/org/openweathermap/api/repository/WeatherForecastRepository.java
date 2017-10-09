@@ -1,55 +1,82 @@
 package org.openweathermap.api.repository;
 
-import okhttp3.HttpUrl;
 import org.json.JSONObject;
-import org.openweathermap.api.request.WeatherRequestCurrent;
-import org.openweathermap.api.request.WeatherRequestForecast;
+import org.openweathermap.api.models.request.WeatherRequestCurrent;
+import org.openweathermap.api.models.request.WeatherRequestForecast;
+import org.openweathermap.api.utility.HttpUtility;
 import org.openweathermap.exception.NoWeatherReportException;
 
-import java.net.URL;
+import java.io.IOException;
 
 /**
  * Created by lauraliismetsvaht on 25/09/2017.
  */
 public class WeatherForecastRepository implements Weather {
 
-	public URL getCurrentWeatherRequestURL(WeatherRequestCurrent request) {
-		URL requestURL = new HttpUrl.Builder()
-			.scheme("https")
-			.host("api.openweathermap.org")
-			.addPathSegment("/data/2.5/weather")
-			.addQueryParameter("q", request.countryCode+","+request.cityName)
-			.addQueryParameter("appid", request.apiKey)
-			.build().url();
-		return requestURL;
-	}
-
-	public static URL getWeatherForecastURL(WeatherRequestForecast request) {
-		int forecastLength = request.forecastLengthInDays;
-		URL requestURL = new HttpUrl.Builder()
-			.scheme("https")
-			.host("api.openweathermap.org")
-			.addPathSegment("/data/2.5/weather")
-			.addQueryParameter("q", request.countryCode+","+request.cityName)
-			.addQueryParameter("appid", request.apiKey)
-			.addQueryParameter("cnt", String.valueOf(forecastLength))
-			.build().url();
-		return requestURL;
-	}
-
+	HttpUtility httpRequest = new HttpUtility();
 
 	public JSONObject getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException {
+		String requestUrl = httpRequest.getCurrentWeatherRequestURL(request).toString();
+		try {
+			final String response = httpRequest.makeApiRequest(requestUrl);
+			JSONObject JSONresponse = new JSONObject(response);
+			return JSONresponse;
+		} catch(IOException e) {
+			System.out.println("IOException: " + e);
+		}
+		throw new NoWeatherReportException("Error!");
+	}
+
+	public JSONObject getWeatherForecast(WeatherRequestForecast request) throws NoWeatherReportException {
+		String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
+		final String response;
+		try {
+			response = httpRequest.makeApiRequest(requestUrl);
+			JSONObject JSONresponse = new JSONObject(response);
+			return JSONresponse;
+		} catch(IOException e) {
+			System.out.println("IOException: " + e);
+		}
+		throw new NoWeatherReportException("Error!");
 	}
 
 	public JSONObject getHighestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
-
+		String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
+		final String response;
+		try {
+			response = httpRequest.makeApiRequest(requestUrl);
+			JSONObject JSONresponse = new JSONObject(response);
+			return JSONresponse;
+		} catch(IOException e) {
+			System.out.println("IOException: " + e);
+		}
+		throw new NoWeatherReportException("Error!");
 	}
 
 	public JSONObject getLowestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
-
+		String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
+		final String response;
+		try {
+			response = httpRequest.makeApiRequest(requestUrl);
+			JSONObject JSONresponse = new JSONObject(response);
+			return JSONresponse;
+		} catch(IOException e) {
+			System.out.println("IOException: " + e);
+		}
+		throw new NoWeatherReportException("Error!");
 	}
 
 	public JSONObject getCityCoordinates(WeatherRequestCurrent request) throws NoWeatherReportException {
-
+		String requestUrl = httpRequest.getCurrentWeatherRequestURL(request).toString();
+		final String response;
+		try {
+			response = httpRequest.makeApiRequest(requestUrl);
+			JSONObject JSONresponse = new JSONObject(response);
+			JSONObject coordinates = JSONresponse.getJSONObject("coord");
+			return coordinates;
+		} catch(IOException e) {
+			System.out.println("IOException: " + e);
+		}
+		throw new NoWeatherReportException("Error!");
 	}
 }
