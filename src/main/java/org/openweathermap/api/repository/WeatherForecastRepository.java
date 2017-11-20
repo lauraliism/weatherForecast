@@ -15,12 +15,14 @@ public class WeatherForecastRepository implements Weather {
 
 	HttpUtility httpRequest = new HttpUtility();
 
-	public JSONObject getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException {
-		String requestUrl = httpRequest.getCurrentWeatherRequestURL(request).toString();
+	public Double getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException {
 		try {
+			String requestUrl = httpRequest.getCurrentWeatherRequestURL(request);
 			final String response = httpRequest.makeApiRequest(requestUrl);
 			JSONObject JSONresponse = new JSONObject(response);
-			return JSONresponse;
+			JSONObject main = JSONresponse.getJSONObject("main");
+			Double temperature = main.getDouble("temp");
+			return temperature;
 		} catch(IOException e) {
 			System.out.println("IOException: " + e);
 		}
@@ -28,9 +30,9 @@ public class WeatherForecastRepository implements Weather {
 	}
 
 	public JSONObject getWeatherForecast(WeatherRequestForecast request) throws NoWeatherReportException {
-		String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
-		final String response;
 		try {
+			String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
+			final String response;
 			response = httpRequest.makeApiRequest(requestUrl);
 			JSONObject JSONresponse = new JSONObject(response);
 			return JSONresponse;
@@ -41,9 +43,9 @@ public class WeatherForecastRepository implements Weather {
 	}
 
 	public JSONObject getHighestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
-		String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
-		final String response;
 		try {
+			String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
+			final String response;
 			response = httpRequest.makeApiRequest(requestUrl);
 			JSONObject JSONresponse = new JSONObject(response);
 			return JSONresponse;
@@ -54,9 +56,9 @@ public class WeatherForecastRepository implements Weather {
 	}
 
 	public JSONObject getLowestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
-		String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
-		final String response;
 		try {
+			String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
+			final String response;
 			response = httpRequest.makeApiRequest(requestUrl);
 			JSONObject JSONresponse = new JSONObject(response);
 			return JSONresponse;

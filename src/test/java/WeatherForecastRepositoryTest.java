@@ -22,8 +22,9 @@ public class WeatherForecastRepositoryTest {
 		try {
 			WeatherRequestCurrent request = new WeatherRequestCurrent(mockCityName, mockCountryCode, apiKey);
 			WeatherForecastRepository repository = new WeatherForecastRepository();
-			JSONObject response = repository.getCurrentTemperature(request);
-			assertEquals(true, response.has("temp"));
+			Double response = repository.getCurrentTemperature(request);
+			System.out.println(response);
+			assertEquals(response, instanceOf(Double.class));
 		} catch (Exception e) {
 			fail("Failure was caused by: "+ e.getMessage());
 		}

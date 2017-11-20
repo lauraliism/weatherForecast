@@ -10,7 +10,7 @@ import org.openweathermap.exception.NoWeatherReportException;
  */
 public interface Weather {
 
-	JSONObject getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException;
+	Double getCurrentTemperature(WeatherRequestCurrent request) throws NoWeatherReportException;
 
 	JSONObject getHighestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException;
 
