@@ -2,6 +2,7 @@ import org.junit.Test;
 import org.openweathermap.api.models.request.WeatherRequestCurrent;
 import org.openweathermap.api.models.request.WeatherRequestForecast;
 import org.openweathermap.api.utility.HttpUtility;
+import org.openweathermap.api.utility.constants.Constants;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
@@ -15,11 +16,12 @@ public class HttpUtilityTest {
 	String mockCountryCode = "EE";
 	int mockForecastLengthInDays = 3;
 	String apiKey = "db1fb1d0d306a8dedfc165d671dd5e4d";
+	Constants.UNIT units = Constants.UNIT.metric;
 
 	@Test
 	public void testCurrentWeatherRequestReturnsString() {
 		try {
-			WeatherRequestCurrent request = new WeatherRequestCurrent(mockCityName, mockCountryCode, apiKey);
+			WeatherRequestCurrent request = new WeatherRequestCurrent(mockCityName, mockCountryCode, apiKey, units);
 			HttpUtility utility = new HttpUtility();
 			String response = utility.getCurrentWeatherRequestURL(request);
 			System.out.println(response);
@@ -32,7 +34,7 @@ public class HttpUtilityTest {
 	@Test
 	public void testWeatherForecastRequestReturnURL() {
 		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockCountryCode, mockForecastLengthInDays, apiKey);
+			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockCountryCode, mockForecastLengthInDays, apiKey, units);
 			HttpUtility utility = new HttpUtility();
 			String response = utility.getWeatherForecastURL(request);
 			assertThat(response, instanceOf(String.class));
@@ -45,7 +47,7 @@ public class HttpUtilityTest {
 	@Test
 	public void testmakeApiRequestReturnString() {
 		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockCountryCode, mockForecastLengthInDays, apiKey);
+			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockCountryCode, mockForecastLengthInDays, apiKey, units);
 			HttpUtility utility = new HttpUtility();
 			String requestURL = utility.getWeatherForecastURL(request);
 			String response = utility.makeApiRequest(requestURL);
