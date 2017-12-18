@@ -34,7 +34,7 @@ public class HttpUtilityTest {
 	@Test
 	public void testWeatherForecastRequestReturnURL() {
 		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockForecastLengthInDays, apiKey, units);
+			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, apiKey, units);
 			HttpUtility utility = new HttpUtility();
 			String response = utility.getWeatherForecastURL(request);
 			assertThat(response, instanceOf(String.class));
@@ -47,7 +47,7 @@ public class HttpUtilityTest {
 	@Test
 	public void testmakeApiRequestReturnString() {
 		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockForecastLengthInDays, apiKey, units);
+			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, apiKey, units);
 			HttpUtility utility = new HttpUtility();
 			String requestURL = utility.getWeatherForecastURL(request);
 			String response = utility.makeApiRequest(requestURL);

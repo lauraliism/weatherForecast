@@ -1,6 +1,8 @@
 import org.junit.Test;
 import org.openweathermap.api.console.ConsoleController;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -39,6 +41,17 @@ public class ConsoleControllerTest {
 			ConsoleController consoleController = new ConsoleController();
 			Integer usersChoice = consoleController.getUsersChoice();
 			assertEquals(usersChoice, instanceOf(Integer.class));
+		} catch (Exception e) {
+			fail("Failure was caused by: "+ e.getMessage());
+		}
+	}
+
+	@Test
+	public void doesGetCityNamesReturnArrayListOfStrings() {
+		try {
+			ConsoleController consoleController = new ConsoleController();
+			ArrayList<String> cityNamesArray = consoleController.getCityNames();
+			assertEquals(cityNamesArray, instanceOf(ArrayList.class));
 		} catch (Exception e) {
 			fail("Failure was caused by: "+ e.getMessage());
 		}

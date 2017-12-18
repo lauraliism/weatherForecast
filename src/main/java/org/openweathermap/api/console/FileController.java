@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class FileController {
 	public final String INPUT_FILE = "/Users/lauraliismetsvaht/IdeaProjects/SOULmate1/weatherForecast1/src/main/resources/input.txt";
+	public final String OUTPUT_FILE = "/Users/lauraliismetsvaht/IdeaProjects/SOULmate1/weatherForecast1/src/main/resources/output.txt";
 
 	public ArrayList<String> getCityNamesFromFile() throws IOException {
 		FileReader fr = new FileReader(INPUT_FILE);
@@ -23,6 +24,10 @@ public class FileController {
 		br.close();
 		System.out.println("LINES!!!" + lines);
 		return lines;
+	}
+
+	public void writeResultsToFile() throws IOException {
+		
 	}
 }
 

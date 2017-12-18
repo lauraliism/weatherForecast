@@ -30,7 +30,6 @@ public class HttpUtility implements URLBuilder {
 	}
 
 	public String getWeatherForecastURL(WeatherRequestForecast request) {
-		int forecastLength = request.forecastLengthInDays;
 		URL requestURL = new HttpUrl.Builder()
 				.scheme("https")
 				.host("api.openweathermap.org")
@@ -38,7 +37,6 @@ public class HttpUtility implements URLBuilder {
 				.addQueryParameter("q", request.cityName)
 				.addQueryParameter("units", String.valueOf(request.units))
 				.addQueryParameter("appid", request.apiKey)
-				// .addQueryParameter("cnt", String.valueOf(forecastLength))
 				.build().url();
 		return requestURL.toString();
 	}
