@@ -5,6 +5,8 @@ import org.openweathermap.api.models.request.WeatherRequestForecast;
 import org.openweathermap.api.repository.WeatherForecastRepository;
 import org.openweathermap.api.utility.constants.Constants;
 
+import java.util.HashMap;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.*;
 
@@ -12,9 +14,8 @@ import static org.junit.Assert.*;
  * Created by lauraliismetsvaht on 11/09/2017.
  */
 public class WeatherForecastRepositoryTest {
-
-	String mockCityName = "Tartu";
-	String mockCountryCode = "EE";
+	String mockCityName = "London";
+	String mockCountryCode = "uk";
 	int mockForecastLengthInDays = 3;
 	String apiKey = "db1fb1d0d306a8dedfc165d671dd5e4d";
 	Constants.UNIT units = Constants.UNIT.metric;
@@ -33,36 +34,12 @@ public class WeatherForecastRepositoryTest {
 	}
 
 	@Test
-	public void doesGetWeatherForecastReturnJSONobject() {
+	public void doesGetThreeDaysHighestAndLowestTempReturnHashMap() {
 		try {
 			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockCountryCode, mockForecastLengthInDays, apiKey, units);
 			WeatherForecastRepository repository = new WeatherForecastRepository();
-			JSONObject response = repository.getWeatherForecast(request);
-			assertEquals(response, instanceOf(JSONObject.class));
-		} catch (Exception e) {
-			fail("Failure was caused by: "+ e.getMessage());
-		}
-	}
-
-	@Test
-	public void doesGetHighestTemperatureForLastThreeDaysReturnForecastOfMultipleDays() {
-		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockCountryCode, mockForecastLengthInDays, apiKey, units);
-			WeatherForecastRepository repository = new WeatherForecastRepository();
-			JSONObject response = repository.getHighestTemperatureForLastThreeDays(request);
-			assertEquals(true, response.has("cnt"));
-		} catch (Exception e) {
-			fail("Failure was caused by: "+ e.getMessage());
-		}
-	}
-
-	@Test
-	public void getReturnLowestTemperatureForLastThreeDaysDoesReturnForecastOfThreeDays() {
-		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockCountryCode, mockForecastLengthInDays, apiKey, units);
-			WeatherForecastRepository repository = new WeatherForecastRepository();
-			JSONObject response = repository.getLowestTemperatureForLastThreeDays(request);
-			assertTrue(response.has("cnt") && response.get("cnt").equals(3));
+			HashMap response = repository.getThreeDaysHighestAndLowestTemp(request);
+			assertEquals(response, instanceOf(HashMap.class));
 		} catch (Exception e) {
 			fail("Failure was caused by: "+ e.getMessage());
 		}
@@ -75,7 +52,8 @@ public class WeatherForecastRepositoryTest {
 			WeatherForecastRepository repository = new WeatherForecastRepository();
 			JSONObject response = repository.getCityCoordinates(request);
 			assertEquals(response, instanceOf(JSONObject.class));
-			assertEquals(true, response.has("coord"));
+			assertEquals(true, response.has("lon"));
+			assertEquals(true, response.has("lat"));
 		} catch (Exception e) {
 			fail("Failure was caused by: "+ e.getMessage());
 		}

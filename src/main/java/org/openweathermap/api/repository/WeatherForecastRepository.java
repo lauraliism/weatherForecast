@@ -9,6 +9,9 @@ import org.openweathermap.exception.NoWeatherReportException;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Created by lauraliismetsvaht on 25/09/2017.
@@ -31,62 +34,65 @@ public class WeatherForecastRepository implements Weather {
 		throw new NoWeatherReportException("Error!");
 	}
 
-	public JSONArray getWeatherForecast(WeatherRequestForecast request) throws NoWeatherReportException {
+	private String getCurrentDate() {
+		SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String currentDate = timeFormat.format(System.currentTimeMillis());
+		System.out.println("currentDate " + currentDate);
+		return currentDate;
+	}
+
+	private String getObjectDate(JSONObject object) {
+		String forecast = object.getString("dt_txt");
+		String forecastDate = forecast.substring(0, forecast.indexOf(" "));
+		return forecastDate;
+	}
+
+	public HashMap<String, Object> getThreeDaysHighestAndLowestTemp(WeatherRequestForecast request) throws NoWeatherReportException {
 		try {
 			String requestUrl = httpRequest.getWeatherForecastURL(request);
 			final String response = httpRequest.makeApiRequest(requestUrl);
+
 			JSONObject JSONresponse = new JSONObject(response);
 			JSONArray list = JSONresponse.getJSONArray("list");
+			String currentDate = this.getCurrentDate();
 
-			SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String currentDate = timeFormat.format(System.currentTimeMillis());
-			System.out.println("currentTime " + currentDate);
+			HashMap<String, Object> temperatures = new HashMap<String,Object>();
+			ArrayList <Double> dailyTemperatures = new ArrayList<Double>();
 
 			for (int i=0; i < list.length(); i++) {
 				JSONObject object = list.getJSONObject(i);
-				// System.out.println("Object!!! " + object);
-				String forecast = object.getString("dt_txt");
-				String forecastDate = forecast.substring(0, forecast.indexOf(" "));
-				System.out.println("forecastDate " + forecastDate);
+				String forecastDate = this.getObjectDate(object);
+				if (!forecastDate.equals(currentDate) && (!list.isNull(i+1) && getObjectDate(list.getJSONObject(i+1)).equals(forecastDate))) {
 
-				if (forecastDate.equals(currentDate)) {
-					System.out.println("SAMAD!!!");
+					JSONObject main = object.getJSONObject("main");
+					Double tempMin = main.getDouble("temp_min");
+					Double tempMax = main.getDouble("temp_max");
+					dailyTemperatures.add(tempMin);
+					dailyTemperatures.add(tempMax);
+
 				}
+				else if (!forecastDate.equals(currentDate) && (list.isNull(i+1) || !(getObjectDate(list.getJSONObject(i+1)).equals(forecastDate)))) {
+					JSONObject main = object.getJSONObject("main");
+					Double tempMin = main.getDouble("temp_min");
+					Double tempMax = main.getDouble("temp_max");
+					dailyTemperatures.add(tempMin);
+					dailyTemperatures.add(tempMax);
 
-				// JSONObject main = object.getJSONObject("main");
-				// Double tempMin = main.getDouble("temp_min");
-				// Double tempMax = main.getDouble("temp_max");
+					Double dailyTempMax = Collections.max(dailyTemperatures);
+					Double dailyTempMin = Collections.min(dailyTemperatures);
+					ArrayList <Double> dailyMinAndMaxTemp = new ArrayList<Double>();
+					dailyMinAndMaxTemp.add(dailyTempMax);
+					dailyMinAndMaxTemp.add(dailyTempMin);
 
-				// System.out.println("tempMin "+ tempMin);
-				// System.out.println("tempMax " + tempMax);
+					if (temperatures.size() < 3) {
+						temperatures.put(forecastDate, dailyMinAndMaxTemp.clone());
+					}
+
+					dailyTemperatures.clear();
+					dailyMinAndMaxTemp.clear();
+				}
 			}
-			return list;
-		} catch(IOException e) {
-			System.out.println("IOException: " + e);
-		}
-		throw new NoWeatherReportException("Error!");
-	}
-
-	public JSONObject getHighestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
-		try {
-			String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
-			final String response;
-			response = httpRequest.makeApiRequest(requestUrl);
-			JSONObject JSONresponse = new JSONObject(response);
-			return JSONresponse;
-		} catch(IOException e) {
-			System.out.println("IOException: " + e);
-		}
-		throw new NoWeatherReportException("Error!");
-	}
-
-	public JSONObject getLowestTemperatureForLastThreeDays(WeatherRequestForecast request) throws NoWeatherReportException {
-		try {
-			String requestUrl = httpRequest.getWeatherForecastURL(request).toString();
-			final String response;
-			response = httpRequest.makeApiRequest(requestUrl);
-			JSONObject JSONresponse = new JSONObject(response);
-			return JSONresponse;
+			return temperatures;
 		} catch(IOException e) {
 			System.out.println("IOException: " + e);
 		}
