@@ -19,7 +19,7 @@ public class ConsoleController {
 		return city;
 	}
 
-	private Integer getUsersChoice() {
+	public Integer getUsersChoice() {
 		System.out.println(inputQuestion);
 		Scanner scanner = new Scanner(System.in);
 		Integer usersChoice = scanner.nextInt();

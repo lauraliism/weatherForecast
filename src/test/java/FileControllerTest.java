@@ -35,12 +35,11 @@ public class FileControllerTest {
 	}
 
 	@Test
-	public void testWriteResultsToFileHasCorrectFile() {
+	public void testWriteResultsToFileHasCorrectDirectory() {
 		try {
 			FileController fileController = new FileController();
-			final String file = fileController.OUTPUT_FILE;
-			String fileName = "output.txt";
-			assertEquals("/Users/lauraliismetsvaht/IdeaProjects/SOULmate1/weatherForecast1/src/main/resources/"+ fileName, file);
+			final String directory = fileController.DIRECTORY;
+			assertEquals("/Users/lauraliismetsvaht/IdeaProjects/SOULmate1/weatherForecast1/src/main/resources/", directory);
 		} catch (Exception e) {
 			fail("Failure was caused by: " + e.getMessage());
 		}
