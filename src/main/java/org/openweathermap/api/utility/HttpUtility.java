@@ -4,8 +4,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.openweathermap.api.models.request.WeatherRequestCurrent;
-import org.openweathermap.api.models.request.WeatherRequestForecast;
+import org.openweathermap.api.models.request.WeatherRequest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,7 +16,7 @@ public class HttpUtility implements URLBuilder {
 
 	OkHttpClient client = new OkHttpClient();
 
-	public String getCurrentWeatherRequestURL(WeatherRequestCurrent request) {
+	public String getCurrentWeatherRequestURL(WeatherRequest request) {
 		URL requestURL = new HttpUrl.Builder()
 				.scheme("https")
 				.host("api.openweathermap.org")
@@ -29,7 +28,7 @@ public class HttpUtility implements URLBuilder {
 		return requestURL.toString();
 	}
 
-	public String getWeatherForecastURL(WeatherRequestForecast request) {
+	public String getWeatherForecastURL(WeatherRequest request) {
 		URL requestURL = new HttpUrl.Builder()
 				.scheme("https")
 				.host("api.openweathermap.org")

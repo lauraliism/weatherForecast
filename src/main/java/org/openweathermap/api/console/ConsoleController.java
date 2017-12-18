@@ -11,7 +11,7 @@ public class ConsoleController {
 	public String cityQuestion = "Enter city name: ";
 	public String inputQuestion = "How would you like to choose the city?" + '\n' + '\t' + "1) Insert city from console " + '\n' + '\t' + "2) Insert city from file ";
 
-	public String chooseCityFromConsole() {
+	private String chooseCityFromConsole() {
 		System.out.println(cityQuestion);
 		Scanner scanner = new Scanner(System.in);
 		String city = scanner.nextLine();
@@ -19,7 +19,7 @@ public class ConsoleController {
 		return city;
 	}
 
-	public Integer getUsersChoice() {
+	private Integer getUsersChoice() {
 		System.out.println(inputQuestion);
 		Scanner scanner = new Scanner(System.in);
 		Integer usersChoice = scanner.nextInt();

@@ -1,8 +1,6 @@
 package org.openweathermap.api.console;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -26,8 +24,13 @@ public class FileController {
 		return lines;
 	}
 
-	public void writeResultsToFile() throws IOException {
-		
+	public void writeResultsToFile(String city, String currentTemperature, ArrayList<String> data) throws IOException {
+		FileWriter fw = new FileWriter(new File(OUTPUT_FILE));
+		fw.write(city.toUpperCase() + ": " + '\n' + '\t' + "Max and min temperature for next 3 days & coordinates: " + '\n' + '\t');
+		for (String cityData : data) {
+			fw.write(cityData + '\n' + '\t');
+		}
+		fw.close();
 	}
 }
 
