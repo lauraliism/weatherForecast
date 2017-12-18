@@ -1,5 +1,4 @@
 import org.junit.Test;
-import org.openweathermap.api.console.FileController;
 
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ public class FileControllerTest {
 	public void testGetCityNameFromFileReturnsArrayOfStrings() {
 		try {
 			org.openweathermap.api.console.FileController fileController = new org.openweathermap.api.console.FileController();
-			ArrayList <String> cityNames = org.openweathermap.api.console.FileController.getCityNameFromFile();
+			ArrayList <String> cityNames = fileController.getCityNameFromFile();
 			assertEquals(cityNames, instanceOf(ArrayList.class));
 		} catch (Exception e) {
 			fail("Failure was caused by: " + e.getMessage());
