@@ -7,7 +7,7 @@ import org.openweathermap.api.utility.constants.Constants;
  */
 public class WeatherRequestCurrent extends WeatherRequest {
 
-	public WeatherRequestCurrent (String cityName, String countryCode, String apiKey, Constants.UNIT units) {
-		super(cityName, countryCode, apiKey, units);
+	public WeatherRequestCurrent (String cityName, String apiKey, Constants.UNIT units) {
+		super(cityName, apiKey, units);
 	}
 }

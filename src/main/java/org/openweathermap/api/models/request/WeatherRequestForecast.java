@@ -8,8 +8,8 @@ import org.openweathermap.api.utility.constants.Constants;
 public class WeatherRequestForecast extends WeatherRequest{
 	public final int forecastLengthInDays;
 
-	public WeatherRequestForecast(String cityName, String countryCode, int forecastLengthInDays, String apiKey, Constants.UNIT units) {
-		super(cityName, countryCode, apiKey, units);
+	public WeatherRequestForecast(String cityName, int forecastLengthInDays, String apiKey, Constants.UNIT units) {
+		super(cityName, apiKey, units);
 		this.forecastLengthInDays = forecastLengthInDays;
 	}
 }

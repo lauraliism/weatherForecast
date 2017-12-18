@@ -23,7 +23,7 @@ public class WeatherForecastRepositoryTest {
 	@Test
 	public void doesGetCurrentTemperatureReturnTemperature() {
 		try {
-			WeatherRequestCurrent request = new WeatherRequestCurrent(mockCityName, mockCountryCode, apiKey, units);
+			WeatherRequestCurrent request = new WeatherRequestCurrent(mockCityName, apiKey, units);
 			WeatherForecastRepository repository = new WeatherForecastRepository();
 			Double response = repository.getCurrentTemperature(request);
 			System.out.println(response);
@@ -36,7 +36,7 @@ public class WeatherForecastRepositoryTest {
 	@Test
 	public void doesGetThreeDaysHighestAndLowestTempReturnHashMap() {
 		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockCountryCode, mockForecastLengthInDays, apiKey, units);
+			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, mockForecastLengthInDays, apiKey, units);
 			WeatherForecastRepository repository = new WeatherForecastRepository();
 			HashMap response = repository.getThreeDaysHighestAndLowestTemp(request);
 			assertEquals(response, instanceOf(HashMap.class));
@@ -48,7 +48,7 @@ public class WeatherForecastRepositoryTest {
 	@Test
 	public void doesGetCityCoordinatesReturnCoordinates() {
 		try {
-			WeatherRequestCurrent request = new WeatherRequestCurrent(mockCityName, mockCountryCode, apiKey, units);
+			WeatherRequestCurrent request = new WeatherRequestCurrent(mockCityName, apiKey, units);
 			WeatherForecastRepository repository = new WeatherForecastRepository();
 			JSONObject response = repository.getCityCoordinates(request);
 			assertEquals(response, instanceOf(JSONObject.class));

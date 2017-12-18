@@ -22,7 +22,7 @@ public class HttpUtility implements URLBuilder {
 				.scheme("https")
 				.host("api.openweathermap.org")
 				.addPathSegment("/data/2.5/weather")
-				.addQueryParameter("q", request.cityName+", "+request.countryCode)
+				.addQueryParameter("q", request.cityName)
 				.addQueryParameter("units", String.valueOf(request.units))
 				.addQueryParameter("appid", request.apiKey)
 				.build().url();
@@ -35,7 +35,7 @@ public class HttpUtility implements URLBuilder {
 				.scheme("https")
 				.host("api.openweathermap.org")
 				.addPathSegment("/data/2.5/forecast")
-				.addQueryParameter("q", request.cityName+", "+request.countryCode)
+				.addQueryParameter("q", request.cityName)
 				.addQueryParameter("units", String.valueOf(request.units))
 				.addQueryParameter("appid", request.apiKey)
 				// .addQueryParameter("cnt", String.valueOf(forecastLength))
