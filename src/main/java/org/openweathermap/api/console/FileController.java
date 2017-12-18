@@ -9,10 +9,10 @@ import java.util.ArrayList;
  * Created by lauraliismetsvaht on 18/12/2017.
  */
 public class FileController {
+	public final String INPUT_FILE = "/Users/lauraliismetsvaht/IdeaProjects/SOULmate1/weatherForecast1/src/main/resources/input.txt";
 
-	public ArrayList<String> getCityNameFromFile() throws IOException {
-		final String FILENAME = "/Users/lauraliismetsvaht/IdeaProjects/SOULmate1/weatherForecast1/src/main/resources/input.txt";
-		FileReader fr = new FileReader(FILENAME);
+	public ArrayList<String> getCityNamesFromFile() throws IOException {
+		FileReader fr = new FileReader(INPUT_FILE);
 		BufferedReader br = new BufferedReader(fr);
 
 		ArrayList<String> lines = new ArrayList<String>();

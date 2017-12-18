@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.openweathermap.api.console.FileController;
 
 import java.util.ArrayList;
 
@@ -11,11 +12,35 @@ import static org.junit.Assert.fail;
  */
 public class FileControllerTest {
 	@Test
-	public void testGetCityNameFromFileReturnsArrayOfStrings() {
+	public void testGetCityNamesFromFileReturnsArrayOfStrings() {
 		try {
-			org.openweathermap.api.console.FileController fileController = new org.openweathermap.api.console.FileController();
-			ArrayList <String> cityNames = fileController.getCityNameFromFile();
+			FileController fileController = new FileController();
+			ArrayList <String> cityNames = fileController.getCityNamesFromFile();
 			assertEquals(cityNames, instanceOf(ArrayList.class));
+		} catch (Exception e) {
+			fail("Failure was caused by: " + e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetCityNamesFromFileHasCorrectFile() {
+		try {
+			FileController fileController = new FileController();
+			final String file = fileController.INPUT_FILE;
+			String fileName = "input.txt";
+			assertEquals("/Users/lauraliismetsvaht/IdeaProjects/SOULmate1/weatherForecast1/src/main/resources/"+ fileName, file);
+		} catch (Exception e) {
+			fail("Failure was caused by: " + e.getMessage());
+		}
+	}
+
+	@Test
+	public void testWriteResultsToFileHasCorrectFile() {
+		try {
+			FileController fileController = new FileController();
+			final String file = fileController.OUTPUT_FILE;
+			String fileName = "output.txt";
+			assertEquals("/Users/lauraliismetsvaht/IdeaProjects/SOULmate1/weatherForecast1/src/main/resources/"+ fileName, file);
 		} catch (Exception e) {
 			fail("Failure was caused by: " + e.getMessage());
 		}
