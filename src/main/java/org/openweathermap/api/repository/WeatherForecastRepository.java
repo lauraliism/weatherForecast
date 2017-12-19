@@ -67,13 +67,38 @@ public class WeatherForecastRepository implements Weather {
 		return forecastDate;
 	}
 
+	private JSONArray getForecastList(WeatherRequest request) throws IOException {
+		String requestUrl = utility.getWeatherForecastURL(request);
+		final String response = utility.makeApiRequest(requestUrl);
+
+		JSONObject JSONresponse = new JSONObject(response);
+		JSONArray list = JSONresponse.getJSONArray("list");
+		return list;
+	}
+
+	private Double getHighestOrLowestTemp(Boolean highest, ArrayList <Double> dailyTemperatures) {
+		if (highest) {
+			return Collections.max(dailyTemperatures);
+		} else {
+			return Collections.min(dailyTemperatures);
+		}
+	}
+
+	private JSONObject getMinAndMaxTempFromObject(JSONObject object) {
+		JSONObject temperatures = new JSONObject();
+
+		JSONObject main = object.getJSONObject("main");
+		Double tempMin = main.getDouble("temp_min");
+		Double tempMax = main.getDouble("temp_max");
+
+		temperatures.put("tempMin", tempMin);
+		temperatures.put("tempMax", tempMax);
+		return temperatures;
+	}
+
 	public HashMap<String, Object> getThreeDaysHighestAndLowestTemp(WeatherRequest request) throws NoWeatherReportException {
 		try {
-			String requestUrl = utility.getWeatherForecastURL(request);
-			final String response = utility.makeApiRequest(requestUrl);
-
-			JSONObject JSONresponse = new JSONObject(response);
-			JSONArray list = JSONresponse.getJSONArray("list");
+			JSONArray list = this.getForecastList(request);
 			String currentDate = this.getCurrentDate();
 
 			HashMap<String, Object> temperatures = new HashMap<String,Object>();
@@ -84,25 +109,19 @@ public class WeatherForecastRepository implements Weather {
 				String forecastDate = this.getObjectDate(object);
 				if (!forecastDate.equals(currentDate) && (!list.isNull(i+1) && getObjectDate(list.getJSONObject(i+1)).equals(forecastDate))) {
 
-					JSONObject main = object.getJSONObject("main");
-					Double tempMin = main.getDouble("temp_min");
-					Double tempMax = main.getDouble("temp_max");
-					dailyTemperatures.add(tempMin);
-					dailyTemperatures.add(tempMax);
-
+					JSONObject minAndMaxTemp = this.getMinAndMaxTempFromObject(object);
+					dailyTemperatures.add(minAndMaxTemp.getDouble("tempMin"));
+					dailyTemperatures.add(minAndMaxTemp.getDouble("tempMax"));
 				}
 				else if (!forecastDate.equals(currentDate) && (list.isNull(i+1) || !(getObjectDate(list.getJSONObject(i+1)).equals(forecastDate)))) {
-					JSONObject main = object.getJSONObject("main");
-					Double tempMin = main.getDouble("temp_min");
-					Double tempMax = main.getDouble("temp_max");
-					dailyTemperatures.add(tempMin);
-					dailyTemperatures.add(tempMax);
 
-					Double dailyTempMax = Collections.max(dailyTemperatures);
-					Double dailyTempMin = Collections.min(dailyTemperatures);
+					JSONObject minAndMaxTemp = this.getMinAndMaxTempFromObject(object);
+					dailyTemperatures.add(minAndMaxTemp.getDouble("tempMin"));
+					dailyTemperatures.add(minAndMaxTemp.getDouble("tempMax"));
+
 					ArrayList <Double> dailyMinAndMaxTemp = new ArrayList<Double>();
-					dailyMinAndMaxTemp.add(dailyTempMax);
-					dailyMinAndMaxTemp.add(dailyTempMin);
+					dailyMinAndMaxTemp.add(getHighestOrLowestTemp(true, dailyTemperatures));
+					dailyMinAndMaxTemp.add(getHighestOrLowestTemp(false, dailyTemperatures));
 
 					if (temperatures.size() < 3) {
 						temperatures.put(forecastDate, dailyMinAndMaxTemp.clone());
