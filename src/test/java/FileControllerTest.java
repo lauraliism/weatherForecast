@@ -3,7 +3,6 @@ import org.openweathermap.api.console.FileController;
 
 import java.util.ArrayList;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -15,8 +14,7 @@ public class FileControllerTest {
 	public void testGetCityNamesFromFileReturnsArrayOfStrings() {
 		try {
 			FileController fileController = new FileController();
-			ArrayList <String> cityNames = fileController.getCityNamesFromFile();
-			assertEquals(cityNames, instanceOf(ArrayList.class));
+			assertEquals(fileController.getCityNamesFromFile().getClass(), ArrayList.class);
 		} catch (Exception e) {
 			fail("Failure was caused by: " + e.getMessage());
 		}

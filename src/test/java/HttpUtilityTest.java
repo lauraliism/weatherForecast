@@ -1,6 +1,5 @@
 import org.junit.Test;
-import org.openweathermap.api.models.request.WeatherRequestCurrent;
-import org.openweathermap.api.models.request.WeatherRequestForecast;
+import org.openweathermap.api.models.request.WeatherRequest;
 import org.openweathermap.api.utility.HttpUtility;
 import org.openweathermap.api.utility.constants.Constants;
 
@@ -21,7 +20,7 @@ public class HttpUtilityTest {
 	@Test
 	public void testCurrentWeatherRequestReturnsString() {
 		try {
-			WeatherRequestCurrent request = new WeatherRequestCurrent(mockCityName, apiKey, units);
+			WeatherRequest request = new WeatherRequest(mockCityName, apiKey, units);
 			HttpUtility utility = new HttpUtility();
 			String response = utility.getCurrentWeatherRequestURL(request);
 			System.out.println(response);
@@ -34,7 +33,7 @@ public class HttpUtilityTest {
 	@Test
 	public void testWeatherForecastRequestReturnURL() {
 		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, apiKey, units);
+			WeatherRequest request = new WeatherRequest(mockCityName, apiKey, units);
 			HttpUtility utility = new HttpUtility();
 			String response = utility.getWeatherForecastURL(request);
 			assertThat(response, instanceOf(String.class));
@@ -47,7 +46,7 @@ public class HttpUtilityTest {
 	@Test
 	public void testmakeApiRequestReturnString() {
 		try {
-			WeatherRequestForecast request = new WeatherRequestForecast(mockCityName, apiKey, units);
+			WeatherRequest request = new WeatherRequest(mockCityName, apiKey, units);
 			HttpUtility utility = new HttpUtility();
 			String requestURL = utility.getWeatherForecastURL(request);
 			String response = utility.makeApiRequest(requestURL);

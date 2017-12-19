@@ -29,8 +29,10 @@ public class FileController {
 		FileWriter fw = new FileWriter(new File(DIRECTORY + city + FILE_EXTENSION));
 		fw.write(city.toUpperCase() + ": " + '\n' + '\t' + "Max and min temperature for next 3 days & coordinates: " + '\n' + '\t');
 		for (String cityData : data) {
-			fw.write(cityData + '\n' + '\t');
+			fw.write('\t' + cityData + '\n' + '\t');
 		}
+		fw.write("Current temperature: " + '\n' + '\t' + '\t');
+		fw.write(currentTemperature + '\n' + '\t' + '\t');
 		fw.close();
 	}
 }
