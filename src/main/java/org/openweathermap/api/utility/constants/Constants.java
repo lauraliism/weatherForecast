@@ -6,6 +6,6 @@ package org.openweathermap.api.utility.constants;
 public class Constants {
 
 	public enum UNIT {
-		metric, imperial
+		metric,
 	}
 }

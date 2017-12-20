@@ -15,13 +15,13 @@ public class FileController {
 		FileReader fr = new FileReader(INPUT_FILE);
 		BufferedReader br = new BufferedReader(fr);
 
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		String line = null;
 		while ((line = br.readLine()) != null) {
 			lines.add(line);
 		}
 		br.close();
-		System.out.println("LINES!!!" + lines);
+		System.out.println("Cities are: " + lines);
 		return lines;
 	}
 

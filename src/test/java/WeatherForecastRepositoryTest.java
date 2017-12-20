@@ -6,8 +6,8 @@ import org.openweathermap.api.utility.constants.Constants;
 
 import java.util.HashMap;
 
+import static com.sun.tools.internal.ws.wsdl.parser.Util.fail;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * Created by lauraliismetsvaht on 11/09/2017.

@@ -9,13 +9,12 @@ import java.util.Scanner;
  */
 public class ConsoleController {
 	public String cityQuestion = "Enter city name: ";
-	public String inputQuestion = "How would you like to choose the city?" + '\n' + '\t' + "1) Insert city from console " + '\n' + '\t' + "2) Insert city from file ";
+	public String inputQuestion = "How would you like to choose the city?" + '\n' + '\t' + "1) Insert city from console " + '\n' + '\t' + "2) Read cities from \"input.txt\" file ";
 
 	private String chooseCityFromConsole() {
 		System.out.println(cityQuestion);
 		Scanner scanner = new Scanner(System.in);
 		String city = scanner.nextLine();
-		System.out.println("Your city is " + city);
 		return city;
 	}
 
@@ -23,7 +22,6 @@ public class ConsoleController {
 		System.out.println(inputQuestion);
 		Scanner scanner = new Scanner(System.in);
 		Integer usersChoice = scanner.nextInt();
-		System.out.println("Your Choice is " + usersChoice);
 		return usersChoice;
 	}
 
@@ -38,7 +36,6 @@ public class ConsoleController {
 		} else if (usersChoice == 2) {
 			cityNameArray = fileController.getCityNamesFromFile();
 		}
-		System.out.println("cityNameArray!!!!!" + cityNameArray);
 		return cityNameArray;
 	}
 }

@@ -1,6 +1,7 @@
 package org.openweathermap.api.repository;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.openweathermap.api.console.ConsoleController;
 import org.openweathermap.api.console.FileController;
@@ -23,12 +24,12 @@ public class WeatherForecastRepository implements Weather {
 	Constants.UNIT UNITS = Constants.UNIT.metric;
 	HttpUtility utility = new HttpUtility();
 
-	public void getForecastsAndWriteToFile() throws IOException, NoWeatherReportException {
+	public void getForecastsAndWriteToFile() throws IOException, NoWeatherReportException, JSONException {
 		ConsoleController consoleController = new ConsoleController();
 		FileController fileController = new FileController();
 		ArrayList<String> cities = consoleController.getCityNames();
 		for (String city : cities) {
-			ArrayList<String> cityResponse = new ArrayList<String>();
+			ArrayList<String> cityResponse = new ArrayList<>();
 			WeatherRequest request = new WeatherRequest(city, APPID, UNITS);
 			Double currentTemperature = this.getCurrentTemperature(request);
 			HashMap threeDaysMinAndMaxTemperatures = this.getThreeDaysHighestAndLowestTemp(request);
@@ -38,21 +39,16 @@ public class WeatherForecastRepository implements Weather {
 			cityResponse.add(coordinates.toString());
 			fileController.writeResultsToFile(city, currentTemperature.toString(), cityResponse);
 		}
+		System.out.println("You may find the results from resources folder!");
 	}
 
-	public Double getCurrentTemperature(WeatherRequest request) throws NoWeatherReportException {
-		try {
+	public Double getCurrentTemperature(WeatherRequest request) throws NoWeatherReportException, IOException, JSONException {
 			String requestUrl = utility.getCurrentWeatherRequestURL(request);
 			final String response = utility.makeApiRequest(requestUrl);
 			JSONObject JSONresponse = new JSONObject(response);
 			JSONObject main = JSONresponse.getJSONObject("main");
 			Double temperature = main.getDouble("temp");
-			System.out.println("CURRENT TEMP!!!" + temperature);
 			return temperature;
-		} catch(IOException e) {
-			System.out.println("IOException: " + e);
-		}
-		throw new NoWeatherReportException("Error!");
 	}
 
 	private String getCurrentDate() {
@@ -61,13 +57,13 @@ public class WeatherForecastRepository implements Weather {
 		return currentDate;
 	}
 
-	private String getObjectDate(JSONObject object) {
+	private String getObjectDate(JSONObject object) throws JSONException {
 		String forecast = object.getString("dt_txt");
 		String forecastDate = forecast.substring(0, forecast.indexOf(" "));
 		return forecastDate;
 	}
 
-	private JSONArray getForecastList(WeatherRequest request) throws IOException {
+	private JSONArray getForecastList(WeatherRequest request) throws IOException, JSONException {
 		String requestUrl = utility.getWeatherForecastURL(request);
 		final String response = utility.makeApiRequest(requestUrl);
 
@@ -84,7 +80,7 @@ public class WeatherForecastRepository implements Weather {
 		}
 	}
 
-	private JSONObject getMinAndMaxTempFromObject(JSONObject object) {
+	private JSONObject getMinAndMaxTempFromObject(JSONObject object) throws JSONException {
 		JSONObject temperatures = new JSONObject();
 
 		JSONObject main = object.getJSONObject("main");
@@ -96,7 +92,7 @@ public class WeatherForecastRepository implements Weather {
 		return temperatures;
 	}
 
-	public HashMap<String, Object> getThreeDaysHighestAndLowestTemp(WeatherRequest request) throws NoWeatherReportException {
+	public HashMap<String, Object> getThreeDaysHighestAndLowestTemp(WeatherRequest request) throws NoWeatherReportException, JSONException {
 		try {
 			JSONArray list = this.getForecastList(request);
 			String currentDate = this.getCurrentDate();
@@ -131,7 +127,6 @@ public class WeatherForecastRepository implements Weather {
 					dailyMinAndMaxTemp.clear();
 				}
 			}
-			System.out.println("temperatures!!!" + temperatures);
 			return temperatures;
 		} catch(IOException e) {
 			System.out.println("IOException: " + e);
@@ -139,14 +134,13 @@ public class WeatherForecastRepository implements Weather {
 		throw new NoWeatherReportException("Error!");
 	}
 
-	public JSONObject getCityCoordinates(WeatherRequest request) throws NoWeatherReportException {
+	public JSONObject getCityCoordinates(WeatherRequest request) throws NoWeatherReportException, JSONException {
 		String requestUrl = utility.getCurrentWeatherRequestURL(request).toString();
 		final String response;
 		try {
 			response = utility.makeApiRequest(requestUrl);
 			JSONObject JSONresponse = new JSONObject(response);
 			JSONObject coordinates = JSONresponse.getJSONObject("coord");
-			System.out.println("COORD!!!" + coordinates);
 			return coordinates;
 		} catch(IOException e) {
 			System.out.println("IOException: " + e);
