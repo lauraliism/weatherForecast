@@ -29,7 +29,7 @@ public class ConsoleControllerTest {
 		try {
 			ConsoleController consoleController = new ConsoleController();
 			String inputQuestion = consoleController.inputQuestion;
-			String question = "How would you like to choose the city?" + '\n' + '\t' + "1) Insert city from console " + '\n' + '\t' + "2) Insert city from file ";
+			String question = "How would you like to choose the city?" + '\n' + '\t' + "1) Insert city from console " + '\n' + '\t' + "2) Read cities from \"input.txt\" file ";
 			assertEquals(question, inputQuestion);
 		} catch (Exception e) {
 			fail("Failure was caused by: " + e.getMessage());
