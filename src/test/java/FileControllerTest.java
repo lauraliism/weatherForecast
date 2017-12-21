@@ -71,7 +71,7 @@ public class FileControllerTest {
 	}
 
 	@Test
-	public void testGetCityNamesFromFileReturnsArrayListOf() throws IOException {
+	public void testGetCityNamesFromFileReturnArrayListOf() throws IOException {
 		ArrayList<String> cityNames = new ArrayList<>();
 		cityNames.add(mockCity);
 

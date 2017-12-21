@@ -147,4 +147,19 @@ public class WeatherForecastRepository implements Weather {
 		}
 		throw new NoWeatherReportException("Error!");
 	}
+
+	public JSONObject getCityCoordinates2(String currentWeatherRequestUrl, HttpUtility utility) throws NoWeatherReportException, JSONException {
+		try {
+			// String requestUrl = utility.getCurrentWeatherRequestURL(request).toString();
+			final String response;
+			response = utility.makeApiRequest(currentWeatherRequestUrl);
+			JSONObject JSONresponse = new JSONObject(response);
+			JSONObject coordinates = JSONresponse.getJSONObject("coord");
+			System.out.println(coordinates);
+			return coordinates;
+		} catch(IOException e) {
+			System.out.println("IOException: " + e);
+		}
+		throw new NoWeatherReportException("Error!");
+	}
 }

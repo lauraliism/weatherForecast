@@ -16,9 +16,10 @@ public class ConsoleControllerTest {
 	@Test
 	public void testChooseCityFromConsoleAskCorrectQuestion() {
 		try {
+			String question = "Enter city name: ";
 			ConsoleController consoleController = new ConsoleController();
 			String cityQuestion = consoleController.cityQuestion;
-			assertEquals("Enter city name: ", cityQuestion);
+			assertEquals(question, cityQuestion);
 		} catch (Exception e) {
 			fail("Failure was caused by: " + e.getMessage());
 		}
@@ -36,6 +37,20 @@ public class ConsoleControllerTest {
 		}
 	}
 
+	@Test
+	public void doesChooseCityFromConsoleReturnString() {
+		try {
+			String city = "Tartu";
+
+			ConsoleController consoleController = mock(ConsoleController.class);
+			Mockito.when(consoleController.chooseCityFromConsole()).thenReturn(city);
+
+			assertThat(consoleController.chooseCityFromConsole(), instanceOf(String.class));
+			assertEquals(consoleController.chooseCityFromConsole(), city);
+		} catch (Exception e) {
+			fail("Failure was caused by: "+ e.getMessage());
+		}
+	}
 	@Test
 	public void doesGetUsersChoiceReturnInteger() {
 		try {

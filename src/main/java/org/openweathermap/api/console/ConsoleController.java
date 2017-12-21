@@ -11,7 +11,7 @@ public class ConsoleController {
 	public String cityQuestion = "Enter city name: ";
 	public String inputQuestion = "How would you like to choose the city?" + '\n' + '\t' + "1) Insert city from console " + '\n' + '\t' + "2) Read cities from \"input.txt\" file ";
 
-	private String chooseCityFromConsole() {
+	public String chooseCityFromConsole() {
 		System.out.println(cityQuestion);
 		Scanner scanner = new Scanner(System.in);
 		String city = scanner.nextLine();
